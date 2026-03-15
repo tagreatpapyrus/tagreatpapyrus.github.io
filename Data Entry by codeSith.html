@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://tagreatpapyrus.neocities.org/fronting -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Entry by codeSith</title>
+    <link href="./Data Entry by codeSith_files/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        form {
+            font-size: 40px !important;
+            width: min(800px, 90%);
+        }
+    </style>
+</head>
+<body>
+    <form id="form" class="mx-auto my-5 shadow p-2" method="POST" action="https://script.google.com/macros/s/AKfycby9UThOyNEM8_OeI6e65ieeyr_U7zGRvN5eVA6ixhvEpCfr9dh8UskJd1wPCriyZTA/exec">
+    <!-- action= will be set by javascript -->
+        <div class="mb-1 d-flex">
+            <label class="mx-3" for="fronting">fronting:</label>
+            <input type="text" class="mx-3 form-control" id="fronting" name="fronting" list="fronting">
+            <datalist id="fronting">
+                <!-- javascript will add options here -->
+            </datalist>
+        </div>
+        <div class="mb-1 d-flex">
+            <label class="mx-3" for="time">Time (milt):</label>
+            <input type="text" class="mx-3 form-control" id="time" name="time" list="time">
+            <datalist id="time">
+                <!-- javascript will add options here -->
+            </datalist>
+        </div>
+        <div class="mb-1 d-flex">
+            <label class="mx-3" for="date">Date:</label>
+            <input type="text" class="mx-3 form-control" id="date" name="date" list="date">
+            <datalist id="date">
+                <!-- javascript will add options here -->                
+            </datalist>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <script>
+        const url = "https://script.google.com/macros/s/AKfycby9UThOyNEM8_OeI6e65ieeyr_U7zGRvN5eVA6ixhvEpCfr9dh8UskJd1wPCriyZTA/exec" // enter your public ('access' - 'anyone') deployment URL (NOT test deployment!)
+        document.getElementById('form').action = url;
+
+        // fetching the data from each column in the sheet
+        // then populating the respective datalist
+        fetch(`${url}?header=Customer`)
+            .then((response) => response.json())
+            .then(({ data }) => {
+                console.log(data);
+                populateDatalists("fronting", data)
+            })
+            .catch((error) => console.error('!!!!!!!!', error));
+
+        fetch(`${url}?header=Phone`)
+            .then((response) => response.json())
+            .then(({ data }) => {
+                console.log(data);
+                populateDatalists("date", data)
+            })
+            .catch((error) => console.error('!!!!!!!!', error));
+        
+        fetch(`${url}?header=Address`)
+            .then((response) => response.json())
+            .then(({ data }) => {
+                console.log(data);
+                populateDatalists("time", data)
+            })
+            .catch((error) => console.error('!!!!!!!!', error));
+
+        // function to add options to datalists
+        const populateDatalists = (id, arr) => {
+            let result = '';
+            for (const item of arr) {
+                result += `<option value="${item}">`;
+            }
+            document.getElementById(id).innerHTML = result;
+        }
+    </script>
+
+</body></html>
